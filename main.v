@@ -3,31 +3,13 @@ module main
 import vweb
 import db.pg
 import json 
+import models
 
 struct App {
 	vweb.Context
 	db_handle vweb.DatabasePool[pg.DB] = unsafe { nil }
 pub mut:
 	db pg.DB
-}
-
-@[table: 'transacao']
-struct Transacao {
-	id        		int     @[primary; sql: serial]
-	id_cliente		int
-	tipo 			string
-	valor 			i64
-	descricao 		string
-	realizada_em  	string   @[default: 'CURRENT_TIME']
-}
-
-
-@[table: 'cliente']
-struct Cliente {
-	id        		int     @[primary; sql: serial]
-	limite			i64 
-	saldo_inicial	i64 
-	transacoes    []Transacao     @[fkey: 'id']
 }
 
 struct ExtratoResponseDto {
@@ -61,26 +43,26 @@ fn main(){
 	pool := vweb.database_pool(handler: get_database_connection)
 
 	sql db {
-		create table Transacao
+		create table models.Transacao
 	}!
 	sql db {
-		create table Cliente
+		create table models.Cliente
 	}!
 
 	db.exec('DELETE FROM cliente') or { panic(err) }
 	db.exec('DELETE FROM transacao') or { panic(err) }
 	
 	clientes := [
-		Cliente{ id: 1 limite: 100000 saldo_inicial: 0},
-		Cliente{ id: 2 limite: 80000 saldo_inicial: 0},
-		Cliente{ id: 3 limite: 1000000 saldo_inicial: 0},
-		Cliente{ id: 4 limite: 10000000 saldo_inicial: 0},
-		Cliente{ id: 5 limite: 500000 saldo_inicial: 0},
+		models.Cliente{ id: 1 limite: 100000 saldo_inicial: 0},
+		models.Cliente{ id: 2 limite: 80000 saldo_inicial: 0},
+		models.Cliente{ id: 3 limite: 1000000 saldo_inicial: 0},
+		models.Cliente{ id: 4 limite: 10000000 saldo_inicial: 0},
+		models.Cliente{ id: 5 limite: 500000 saldo_inicial: 0},
 	]
 
 	for cliente in clientes{ 
 		sql db {
-			insert cliente into Cliente
+			insert cliente into models.Cliente
 		}!
 	}
 
@@ -98,7 +80,7 @@ pub fn (mut app App) post_transacao(id int) vweb.Result {
 		return app.text('Failed to decode json, error: $err')
 	}
 
-	transacao := Transacao{
+	transacao := models.Transacao{
 		id_cliente: id
 		valor: transacao_dto.valor
 		tipo: transacao_dto.tipo
@@ -106,7 +88,7 @@ pub fn (mut app App) post_transacao(id int) vweb.Result {
 	}
 
 	sql app.db {
-		insert transacao into Transacao
+		insert transacao into models.Transacao
 	}or {panic(err)}
 
 
@@ -117,7 +99,7 @@ pub fn (mut app App) post_transacao(id int) vweb.Result {
 @['/clientes/:idRequest/extrato'; get]
 pub fn (mut app App) get_extrato(idRequest i64) vweb.Result {
 	clientes := sql app.db {
-	select from Cliente where id == idRequest
+	select from models.Cliente where id == idRequest
 	} or {panic(err)}
 
 	if clientes == [] {
