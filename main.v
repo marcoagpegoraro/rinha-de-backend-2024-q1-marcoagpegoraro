@@ -3,7 +3,6 @@ module main
 import vweb
 import db.pg
 import json 
-// import time 
 
 struct App {
 	vweb.Context
@@ -49,6 +48,8 @@ struct TransacaoDto {
 	realizada_em string
 }
 
+
+
 fn get_database_connection() pg.DB {
 	return pg.connect(user: 'postgres', password: '12345', dbname: 'postgres') or { panic(err) }
 }
@@ -65,6 +66,22 @@ fn main(){
 	sql db {
 		create table Cliente
 	}!
+
+	db.exec('DELETE FROM cliente') or { panic(err) }
+	
+	clientes := [
+		Cliente{ id: 1 limite: 100000 saldo_inicial: 0},
+		Cliente{ id: 2 limite: 80000 saldo_inicial: 0},
+		Cliente{ id: 3 limite: 1000000 saldo_inicial: 0},
+		Cliente{ id: 4 limite: 10000000 saldo_inicial: 0},
+		Cliente{ id: 5 limite: 500000 saldo_inicial: 0},
+	]
+
+	for cliente in clientes{ 
+		sql db {
+			insert cliente into Cliente
+		}!
+	}
 
 	app := &App{
 		db_handle: pool
@@ -87,7 +104,11 @@ pub fn (mut app App) post_transacao(id i64) vweb.Result {
 	return app.json(body)
 }
 
-@['/clientes/:id/extrato'; get]
-pub fn (mut app App) get_extrato(id i64) vweb.Result {
-	return app.text('Id recebido $id')
+@['/clientes/:idRequest/extrato'; get]
+pub fn (mut app App) get_extrato(idRequest i64) vweb.Result {
+	cliente := sql app.db {
+	select from Cliente where id == idRequest
+	} or {panic(err)}
+
+	return app.json(cliente)
 }
