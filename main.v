@@ -68,6 +68,7 @@ fn main(){
 	}!
 
 	db.exec('DELETE FROM cliente') or { panic(err) }
+	db.exec('DELETE FROM transacao') or { panic(err) }
 	
 	clientes := [
 		Cliente{ id: 1 limite: 100000 saldo_inicial: 0},
@@ -91,24 +92,40 @@ fn main(){
 }
 
 @['/clientes/:id/transacoes'; post]
-pub fn (mut app App) post_transacao(id i64) vweb.Result {
-	body := json.decode(TransacaoDto, app.req.data) or {
+pub fn (mut app App) post_transacao(id int) vweb.Result {
+	transacao_dto := json.decode(TransacaoDto, app.req.data) or {
 		app.set_status(400, '')
 		return app.text('Failed to decode json, error: $err')
 	}
 
-	// app.db_handle.
+	transacao := Transacao{
+		id_cliente: id
+		valor: transacao_dto.valor
+		tipo: transacao_dto.tipo
+		descricao: transacao_dto.descricao
+	}
+
+	sql app.db {
+		insert transacao into Transacao
+	}or {panic(err)}
 
 
 	// return app.text('Id recebido $id')
-	return app.json(body)
+	return app.json(transacao)
 }
 
 @['/clientes/:idRequest/extrato'; get]
 pub fn (mut app App) get_extrato(idRequest i64) vweb.Result {
-	cliente := sql app.db {
+	clientes := sql app.db {
 	select from Cliente where id == idRequest
 	} or {panic(err)}
+
+	if clientes == [] {
+		app.set_status(404, '')
+		return app.text("")
+	}
+
+	cliente := clientes[0]
 
 	return app.json(cliente)
 }
