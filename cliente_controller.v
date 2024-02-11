@@ -5,6 +5,7 @@ import vweb
 import json 
 
 import models 
+import dtos
 
 pub struct ClienteCxt {
 	vweb.Context
@@ -13,28 +14,10 @@ pub mut:
 	db pg.DB
 }
 
-struct ExtratoResponseDto {
-	saldo SaldoDto
-	transacao []TransacaoDto
-}
-
-struct SaldoDto {
-	total i64
-	data_extrato string
-	limite i64
-}
-
-struct TransacaoDto {
-	valor i64
-	tipo string
-	descricao string
-	realizada_em string
-}
-
 
 @['/:id/transacoes'; post]
 pub fn (mut app ClienteCxt) post_transacao(id int) vweb.Result {
-	transacao_dto := json.decode(TransacaoDto, app.req.data) or {
+	transacao_dto := json.decode(dtos.TransacaoDto, app.req.data) or {
 		app.set_status(400, '')
 		return app.text('Failed to decode json, error: $err')
 	}
