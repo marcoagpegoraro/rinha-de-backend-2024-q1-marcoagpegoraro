@@ -36,11 +36,11 @@ fn main(){
 	db.exec('DELETE FROM transacao') or { panic(err) }
 	
 	clientes := [
-		models.Cliente{ id: 1 limite: 100000 saldo_inicial: 0},
-		models.Cliente{ id: 2 limite: 80000 saldo_inicial: 0},
-		models.Cliente{ id: 3 limite: 1000000 saldo_inicial: 0},
-		models.Cliente{ id: 4 limite: 10000000 saldo_inicial: 0},
-		models.Cliente{ id: 5 limite: 500000 saldo_inicial: 0},
+		models.Cliente{ id: 1 limite: 100000 saldo: 0},
+		models.Cliente{ id: 2 limite: 80000 saldo: 0},
+		models.Cliente{ id: 3 limite: 1000000 saldo: 0},
+		models.Cliente{ id: 4 limite: 10000000 saldo: 0},
+		models.Cliente{ id: 5 limite: 500000 saldo: 0},
 	]
 
 	for cliente in clientes{ 
