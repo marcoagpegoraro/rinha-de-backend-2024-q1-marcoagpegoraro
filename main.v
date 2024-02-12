@@ -49,6 +49,9 @@ fn main(){
 		}!
 	}
 
+
+	db.close()
+
 	app := &App{
 		controllers: [
 			vweb.controller('/clientes', cli_ctrler.ClienteCxt{
