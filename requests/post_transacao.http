@@ -2,6 +2,6 @@ POST http://localhost:8080/clientes/1/transacoes
 
 {
     "valor": 1000,
-    "tipo": "c",
-    "descricao": "Descricao"
+    "tipo": "DdCc",
+    "descricao": "umardsodjf"
 }

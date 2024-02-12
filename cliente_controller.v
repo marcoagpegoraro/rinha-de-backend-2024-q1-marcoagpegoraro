@@ -22,6 +22,11 @@ pub fn (mut app ClienteCxt) post_transacao(id int) vweb.Result {
 		return app.text('Failed to decode json, error: $err')
 	}
 
+	if !transacao_eh_valida(transacao_dto) {
+		app.set_status(400, '')
+		return app.text("")	
+	}
+
 	transacao := models.Transacao{
 		id_cliente: id
 		valor: transacao_dto.valor
@@ -52,4 +57,17 @@ pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 	cliente := clientes[0]
 
 	return app.json(cliente)
+}
+
+fn transacao_eh_valida(transacao_dto dtos.TransacaoDto) bool{
+	if transacao_dto.valor < 0 {
+		return false
+	}
+	if !"cCdD".contains(transacao_dto.tipo) {
+		return false
+	} 
+	if transacao_dto.descricao.len > 10 {
+		return false
+	}
+	return true
 }
