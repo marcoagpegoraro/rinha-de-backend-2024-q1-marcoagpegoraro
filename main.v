@@ -16,7 +16,7 @@ pub mut:
 
 
 fn get_database_connection() pg.DB {
-	return pg.connect(user: 'postgres', password: '12345', dbname: 'postgres') or { panic(err) }
+	return pg.connect_with_conninfo("host=172.17.0.2 dbname=postgres user=postgres password=12345 port=5432") or { panic(err) }
 }
 
 fn main(){
@@ -61,6 +61,10 @@ fn main(){
 		db_handle: pool
 	}
 
-	vweb.run(app, 8080)
+	vweb.run_at(app, vweb.RunParams{
+		host: '0.0.0.0'
+		port: 8080
+		family: .ip
+	}) or { panic(err) }
 }
 
