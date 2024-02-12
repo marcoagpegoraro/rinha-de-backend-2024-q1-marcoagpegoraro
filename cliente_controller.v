@@ -65,6 +65,7 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 		valor: transacao_dto.valor
 		tipo: transacao_dto.tipo
 		descricao: transacao_dto.descricao
+		realizada_em: time.now().format_rfc3339()
 	}
 
 	sql app.db {
@@ -108,7 +109,7 @@ pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 	extrato_response_dto := dtos.ExtratoResponseDto{
 		saldo: dtos.SaldoDto{
 			total: cliente.saldo
-			data_extrato: time.now().format()
+			data_extrato: time.now().format_rfc3339()
 			limite: cliente.limite
 		} 
 		ultimas_transacoes: transacoes_response_dto
