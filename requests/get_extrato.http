@@ -1,1 +1,1 @@
-GET http://localhost:8080/clientes/4/extrato
+GET http://localhost:8080/clientes/1/extrato

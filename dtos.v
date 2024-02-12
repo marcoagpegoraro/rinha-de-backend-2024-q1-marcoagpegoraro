@@ -3,7 +3,7 @@ module dtos
 pub struct ExtratoResponseDto {
 pub:
 	saldo SaldoDto
-	transacao []TransacaoDto
+	ultimas_transacoes []TransacaoDto
 }
 
 pub struct SaldoDto {

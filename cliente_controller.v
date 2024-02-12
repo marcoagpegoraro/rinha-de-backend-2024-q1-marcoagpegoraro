@@ -3,6 +3,8 @@ module cli_ctrler
 import db.pg
 import vweb
 import json 
+import arrays 
+import time
 
 import models 
 import dtos
@@ -90,7 +92,30 @@ pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 
 	cliente := clientes[0]
 
-	return app.json(cliente)
+	transacoes := sql app.db {
+		select from models.Transacao where id_cliente == idRequest order by realizada_em desc limit 10
+	} or {panic(err)}
+
+	transacoes_response_dto := arrays.map_indexed[models.Transacao, dtos.TransacaoDto](transacoes, fn (i int, e models.Transacao) dtos.TransacaoDto{
+		return dtos.TransacaoDto{
+			valor: e.valor
+			tipo: e.tipo
+			descricao: e.descricao
+			realizada_em: e.realizada_em
+		} 
+	})
+
+	extrato_response_dto := dtos.ExtratoResponseDto{
+		saldo: dtos.SaldoDto{
+			total: cliente.saldo
+			data_extrato: time.now().format()
+			limite: cliente.limite
+		} 
+		ultimas_transacoes: transacoes_response_dto
+	}
+
+
+	return app.json(extrato_response_dto)
 }
 
 fn transacao_eh_valida(transacao_dto dtos.TransacaoDto) bool{
