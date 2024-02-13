@@ -1,5 +1,5 @@
 # Rinha de backend!
-## Using Vlang
+### Using Vlang
 
 <div align="center">
 <p>
@@ -37,7 +37,18 @@ You can also run the docker compose using
 This way, the app will run with two instances, a postgres instance and a nginx load balancer.
 <hr>
 
+## Stress test
+
 Here is the stress test result that the challenge provided to the participants, i used the docker compose up command to start the infrastructure of my app and then i started the stress test (https://github.com/zanfranceschi/rinha-de-backend-2024-q1/blob/main/executar-teste-local.sh). Here is the machine specs that i runned the test:
 
-- Processor: Intel Core I5-10210U
+- Processor: Intel Core i5-10210U
 - Ram: 8GB DDR4 
+- OS: Linux Mint Cinnamon 21.3
+
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/1.jpeg?raw=true" alt="Request Time Ranges"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/1.jpeg?raw=true" alt="Request Time Ranges"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/3.jpeg?raw=true" alt="Requests"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/4.jpeg?raw=true" alt="Response Time Percentiles over Time (OK)"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/5.jpeg?raw=true" alt="Number of requests per second"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/6.jpeg?raw=true" alt="Number of responses per second"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/7.jpeg?raw=true" alt="Response Time Distribution"/>
