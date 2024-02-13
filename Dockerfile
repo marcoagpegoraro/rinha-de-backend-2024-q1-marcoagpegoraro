@@ -14,21 +14,14 @@ RUN apk --no-cache add \
   musl-dev \
   openssl-dev sqlite-dev \
   libx11-dev glfw-dev freetype-dev \
-  libpq postgresql-dev 
+  libpq postgresql-dev
 
-# RUN git clone https://github.com/vlang/v /opt/vlang && cd /opt/vlang && git reset --hard 5b1b2cc && make
-RUN wget https://github.com/vlang/v/releases/download/0.4.2/v_linux.zip
-RUN mv v_linux.zip /opt/vlang 
-RUN mkdir temp
-RUN unzip v_linux.zip -d temp
-RUN cp -r temp/v/* . && rm -rf temp
-# RUN wget https://github.com/vlang/v/archive/refs/tags/0.4.3.zip && mv 0.4.3.zip /opt/vlang && unzip 0.4.3.zip && make
+## RUN apk --no-cache add --virtual sdl2deps sdl2-dev sdl2_ttf-dev sdl2_mixer-dev sdl2_image-dev
 
-
+RUN git clone https://github.com/vlang/v /opt/vlang && make
 
 COPY . ./app
 RUN v -prod -d no_segfault_handler ./app
 EXPOSE 8080
 
 CMD [ "./app/app" ]
-# CMD [ "sleep", "infinity" ]

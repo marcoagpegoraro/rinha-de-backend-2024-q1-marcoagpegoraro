@@ -6,7 +6,6 @@ import json
 import arrays 
 import time
 import math
-// import option
 
 import models 
 import dtos
@@ -34,59 +33,25 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	transacao_valor := i64(transacao_dto.valor) 
 	resultado := app.db.exec_param_many('SELECT * from update_balance($1, $2, $3)', [idRequest.str(), transacao_dto.tipo.str(), transacao_valor.str()]) or { panic(err) }
 
-	procedure_message := resultado[0].vals[0]
-	// is_error := resultado[0].vals[1] or {panic(err)} 
-	// saldo_cliente_string := resultado[0].vals[2] or {panic(err)}
-	// limite_cliente_string := resultado[0].vals[3] or {panic(err)}
+	procedure_message_optional := resultado[0].vals[0] or { return app.server_error(500) }
+	is_error_optional := resultado[0].vals[1] or { return app.server_error(500) } 
+	saldo_cliente_optional := resultado[0].vals[2] or { return app.server_error(500) }
+	limite_cliente_optional := resultado[0].vals[3] or { return app.server_error(500) }
 	// saldo_cliente := saldo_cliente_string.i64()
 	// limite_cliente := limite_cliente_string.i64()	
-	println(procedure_message)
-	println(procedure_message == "Saldo do cliente atualizado com sucesso")
-	// println(is_error)
-	// println(saldo_cliente_string)
-	// println(limite_cliente_string)
+	procedure_message := procedure_message_optional.str()
+	is_error := is_error_optional.str() 
+	saldo_cliente := (saldo_cliente_optional.str()).i64()
+	limite_cliente := (limite_cliente_optional.str()).i64()
 
-
-
-	// procedure_message := ''
-	// is_error := ''
-	// saldo_cliente := 0 
-	// limite_cliente := 0
-	// match resultado {
-	// 	// If the result is Some, it contains a value
-	// 	option.Some(rows) => {
-	// 		// Use the rows here
-	// 		// Iterate through the rows if needed
-	// 		// for row in rows {
-	// 		// 	// Access row data and process it
-	// 		// 	println(row)
-	// 		// }
-	// 		procedure_message := rows[0].vals[0]
-	// 		is_error := rows[0].vals[1] == 't'
-	// 		saldo_cliente := rows[0].vals[2].i64() 
-	// 		limite_cliente := rows[0].vals[3].i64()
-	// 	}
-	// 	// If the result is None, handle the case where the result is empty
-	// 	option.None => {
-	// 		println('No rows returned')
-	// 		return app.text("")
-	// 	}
-	// }
-
-
-	// procedure_message := resultado[0].vals[0]
-	// is_error := resultado[0].vals[1] == 't'
-	// saldo_cliente := resultado[0].vals[2].i64() 
-	// limite_cliente := resultado[0].vals[3].i64()
-
-	// if is_error  == 't'{
-	// 	if procedure_message == 'Cliente não encontrado' {	
-	// 		app.set_status(404, '')
-	// 	} else if procedure_message == 'Limite foi ultrapassado' {
-	// 		app.set_status(422, '')	
-	// 	}
-	// 	return app.text("")
-	// }
+	if is_error  == 't'{
+		if procedure_message == 'Cliente não encontrado' {	
+			app.set_status(404, '')
+		} else if procedure_message == 'Limite foi ultrapassado' {
+			app.set_status(422, '')	
+		}
+		return app.text("")
+	}
 	
 	transacao := models.Transacao{
 		id_cliente: idRequest
@@ -102,10 +67,8 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	
 	
 	transacao_response_dto := dtos.TransacaoResponseDto{
-		// limite: limite_cliente
-		// saldo: saldo_cliente
-		limite: 99
-		saldo: 88
+		limite: limite_cliente
+		saldo: saldo_cliente
 	}
 
 	return app.json(transacao_response_dto)

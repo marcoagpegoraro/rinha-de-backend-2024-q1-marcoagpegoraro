@@ -1,46 +1,46 @@
 version: "3.5"
 
 services:
-  api01: &api
-    build: 
-      context: . #Comentar quando for enviar o PR para a rinha
-      dockerfile: Dockerfile
-    # image: marcoagp/rinha_vlang_marco:latest  #Descomentar quando for enviar o PR para a rinha
-    restart: unless-stopped
-    hostname: api01
-    environment:
-      - DB_HOSTNAME=db
-    ports:
-      - "8081:8080"
-    depends_on:
-      - db
-    deploy:
-      resources:
-        limits:
-          cpus: "0.15"
-          memory: "50mb"
-  api02:
-    <<: *api 
-    hostname: api02
-    environment:
-      - DB_HOSTNAME=db
-    ports:
-      - "8082:8080" 
-  nginx:
-    image: nginx:1.25.3-alpine
-    restart: unless-stopped
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - api01
-      - api02
-    ports:
-      - "9999:9999" 
-    deploy:
-      resources:
-        limits:
-          cpus: "0.2"
-          memory: "50mb"
+  # api01: &api
+  #   build: 
+  #     context: . #Comentar quando for enviar o PR para a rinha
+  #     dockerfile: Dockerfile
+  #   # image: marcoagp/rinha_vlang_marco:latest  #Descomentar quando for enviar o PR para a rinha
+  #   restart: unless-stopped
+  #   hostname: api01
+  #   environment:
+  #     - DB_HOSTNAME=db
+  #   ports:
+  #     - "8081:8080"
+  #   depends_on:
+  #     - db
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: "0.15"
+  #         memory: "50mb"
+  # api02:
+  #   <<: *api 
+  #   hostname: api02
+  #   environment:
+  #     - DB_HOSTNAME=db
+  #   ports:
+  #     - "8082:8080" 
+  # nginx:
+    # image: nginx:1.25.3-alpine
+    # restart: unless-stopped
+    # volumes:
+    #   - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    # depends_on:
+    #   - api01
+    #   - api02
+    # ports:
+    #   - "9999:9999" 
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "0.2"
+    #       memory: "50mb"
   db:
     image: postgres:16-alpine
     restart: unless-stopped
