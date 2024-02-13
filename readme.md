@@ -1,5 +1,6 @@
-#Rinha de backend!
-##Using Vlang
+# Rinha de backend!
+## Using Vlang
+
 <div align="center">
 <p>
     <a href="https://vlang.io/" target="_blank"><img width="80" src="https://raw.githubusercontent.com/vlang/v-logo/master/dist/v-logo.svg?sanitize=true" alt="V logo"></a>
@@ -11,7 +12,17 @@ This is a project that I did to participate the "rinha-de-backend-2024-q1" chall
 
 You can see the criterias of the project in the following link: https://github.com/zanfranceschi/rinha-de-backend-2024-q1 but basically the objective was create an application with two endpoints, using any programming language, and then create the infrastructure using a docker compose file.
 
-The stack of my app is very simple, i just used the standart library of the V programming language (https://vlang.io/) and a postgres database.
+#### This is the stack of my app:
+
+- Vlang v0.4.4 (https://vlang.io)
+  - Vweb (https://modules.vlang.io/vweb.html)
+  - orm (https://modules.vlang.io/orm.html)
+  - db.pg (https://modules.vlang.io/db.pg.html)
+
+- Nginx
+- PostgreSQL
+  - PLPGSQL
+
 
 If you wanna run this project localy, you will also need to instal libpg, witch is used by db.pg to connect with postgres, if that doesn't work, try to install postgresql-dev.
 
@@ -24,3 +35,9 @@ Be aware that you will need to change the connect info string.
 You can also run the docker compose using 
 ```docker compose up```
 This way, the app will run with two instances, a postgres instance and a nginx load balancer.
+<hr>
+
+Here is the stress test result that the challenge provided to the participants, i used the docker compose up command to start the infrastructure of my app and then i started the stress test (https://github.com/zanfranceschi/rinha-de-backend-2024-q1/blob/main/executar-teste-local.sh). Here is the machine specs that i runned the test:
+
+- Processor: Intel Core I5-10210U
+- Ram: 8GB DDR4 
