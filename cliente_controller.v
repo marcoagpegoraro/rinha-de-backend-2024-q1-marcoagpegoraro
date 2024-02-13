@@ -30,37 +30,39 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 		return app.text("")	
 	}
 
-	clientes := sql app.db {
-		select from models.Cliente where id == idRequest
-	} or {panic(err)}
+	resultado := app.db.exec_param_many('SELECT update_balance($1, $2, $3)', [idRequest, transacao_dto.tipo, transacao_dto.valor]) or { err }
+	println(resultado)
+	// clientes := sql app.db {
+	// 	select from models.Cliente where id == idRequest
+	// } or {panic(err)}
 
-	if clientes == [] {
-		app.set_status(404, '')
-		return app.text("")
-	}
+	// if clientes == [] {
+	// 	app.set_status(404, '')
+	// 	return app.text("")
+	// }
 
-	cliente := clientes[0]
+	// cliente := clientes[0]
 
-	mut saldo_cliente := i64(0)
-	transacao_valor := i64(transacao_dto.valor) 
-	if transacao_dto.tipo == "c" {
-		saldo_cliente = cliente.saldo + transacao_valor 
-	} 
-	else if transacao_dto.tipo == "d"{
-		saldo_cliente = cliente.saldo - transacao_valor
-		if cliente.limite + saldo_cliente < 0 {
-			app.set_status(422, '')	
-			return app.text("")
-		}
-	}
-	else{
-		app.set_status(422, '')	
-		return app.text("")
-	}
+	// mut saldo_cliente := i64(0)
+	// transacao_valor := i64(transacao_dto.valor) 
+	// if transacao_dto.tipo == "c" {
+	// 	saldo_cliente = cliente.saldo + transacao_valor 
+	// } 
+	// else if transacao_dto.tipo == "d"{
+	// 	saldo_cliente = cliente.saldo - transacao_valor
+	// 	if cliente.limite + saldo_cliente < 0 {
+	// 		app.set_status(422, '')	
+	// 		return app.text("")
+	// 	}
+	// }
+	// else{
+	// 	app.set_status(422, '')	
+	// 	return app.text("")
+	// }
 
-	sql app.db {
-		update models.Cliente set saldo = saldo_cliente where id == idRequest
-	} or {panic(err)}
+	// sql app.db {
+	// 	update models.Cliente set saldo = saldo_cliente where id == idRequest
+	// } or {panic(err)}
 
 	transacao := models.Transacao{
 		id_cliente: idRequest
@@ -128,6 +130,9 @@ fn transacao_eh_valida(transacao_dto dtos.TransacaoDto) bool{
 	if transacao_dto.valor < 0 {
 		return false
 	}
+	if transacao_dto.tipo != "c" && transacao_dto.tipo != "d" {
+		return false
+	} 
 	if  transacao_dto.descricao == "" || transacao_dto.descricao.len > 10 {
 		return false
 	}
