@@ -5,6 +5,7 @@ import vweb
 import json 
 import arrays 
 import time
+import math
 
 import models 
 import dtos
@@ -121,7 +122,7 @@ pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 }
 
 fn transacao_eh_valida(transacao_dto dtos.TransacaoDto) bool{
-	if transacao_dto.valor % 1 != 0 {
+	if math.fmod(transacao_dto.valor, 1) != 0 {
 		return false
 	}
 	if transacao_dto.valor < 0 {
