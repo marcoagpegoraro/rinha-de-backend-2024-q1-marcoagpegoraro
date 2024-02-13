@@ -16,8 +16,6 @@ RUN apk --no-cache add \
   libx11-dev glfw-dev freetype-dev \
   libpq postgresql-dev
 
-## RUN apk --no-cache add --virtual sdl2deps sdl2-dev sdl2_ttf-dev sdl2_mixer-dev sdl2_image-dev
-
 RUN git clone https://github.com/vlang/v /opt/vlang && make
 
 COPY . ./app
