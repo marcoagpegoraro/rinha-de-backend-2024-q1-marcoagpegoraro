@@ -15,9 +15,9 @@ pub:
 
 pub struct TransacaoDto {
 pub:
-	valor i64
-	tipo string
-	descricao string
+	valor f64 @[required]
+	tipo string @[required]
+	descricao string @[required]
 	realizada_em string
 }
 

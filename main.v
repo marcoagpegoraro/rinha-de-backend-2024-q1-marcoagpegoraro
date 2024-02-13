@@ -3,7 +3,6 @@ module main
 import vweb
 import db.pg
 
-import models
 import cli_ctrler
 
 pub struct App {

@@ -20,12 +20,12 @@ pub mut:
 @['/:id/transacoes'; post]
 pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	transacao_dto := json.decode(dtos.TransacaoDto, app.req.data) or {
-		app.set_status(400, '')
+		app.set_status(422, '')
 		return app.text('Failed to decode json, error: $err')
 	}
 
 	if !transacao_eh_valida(transacao_dto) {
-		app.set_status(400, '')
+		app.set_status(422, '')
 		return app.text("")	
 	}
 
@@ -41,18 +41,19 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	cliente := clientes[0]
 
 	mut saldo_cliente := i64(0)
+	transacao_valor := i64(transacao_dto.valor) 
 	if transacao_dto.tipo == "c" {
-		saldo_cliente = cliente.saldo + transacao_dto.valor 
+		saldo_cliente = cliente.saldo + transacao_valor 
 	} 
 	else if transacao_dto.tipo == "d"{
-		saldo_cliente = cliente.saldo - transacao_dto.valor
+		saldo_cliente = cliente.saldo - transacao_valor
 		if cliente.limite + saldo_cliente < 0 {
 			app.set_status(422, '')	
 			return app.text("")
 		}
 	}
 	else{
-		app.set_status(404, '')	
+		app.set_status(422, '')	
 		return app.text("")
 	}
 
@@ -62,7 +63,7 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 
 	transacao := models.Transacao{
 		id_cliente: idRequest
-		valor: transacao_dto.valor
+		valor: transacao_valor
 		tipo: transacao_dto.tipo
 		descricao: transacao_dto.descricao
 		realizada_em: time.now().format_rfc3339()
@@ -120,10 +121,13 @@ pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 }
 
 fn transacao_eh_valida(transacao_dto dtos.TransacaoDto) bool{
+	if transacao_dto.valor % 1 != 0 {
+		return false
+	}
 	if transacao_dto.valor < 0 {
 		return false
 	}
-	if transacao_dto.descricao.len > 10 {
+	if  transacao_dto.descricao == "" || transacao_dto.descricao.len > 10 {
 		return false
 	}
 	return true
