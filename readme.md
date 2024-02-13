@@ -6,6 +6,7 @@
 </p>
 
 </div>
+<hr>
 This is a project that I did to participate the "rinha-de-backend-2024-q1" challenge.
 
 You can see the criterias of the project in the following link: https://github.com/zanfranceschi/rinha-de-backend-2024-q1 but basically the objective was create an application with two endpoints, using any programming language, and then create the infrastructure using a docker compose file.
@@ -17,3 +18,7 @@ You can build the image using the following command:
 And then run with:
 ```docker run -p 8080:8080 rinha_vlang_marco```
 Be aware that you will need to change the connect info string.
+
+You can also run the docker compose using 
+```docker compose up```
+This way, the app will run with two instances, a postgres instance and a nginx load balancer.
