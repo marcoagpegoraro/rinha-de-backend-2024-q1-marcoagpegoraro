@@ -13,6 +13,8 @@ You can see the criterias of the project in the following link: https://github.c
 
 The stack of my app is very simple, i just used the standart library of the V programming language (https://vlang.io/) and a postgres database.
 
+If you wanna run this project localy, you will also need to instal libpg, witch is used by db.pg to connect with postgres, if that doesn't work, try to install postgresql-dev.
+
 You can build the image using the following command:
 ```docker build --tag 'rinha_vlang_marco' .```
 And then run with:
