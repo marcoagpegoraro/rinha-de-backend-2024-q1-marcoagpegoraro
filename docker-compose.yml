@@ -15,7 +15,7 @@ services:
       resources:
         limits:
           cpus: "0.15"
-          memory: "50MB"
+          memory: "50mb"
   api02:
     <<: *api 
     hostname: api02
@@ -37,7 +37,7 @@ services:
       resources:
         limits:
           cpus: "0.2"
-          memory: "50MB"
+          memory: "50mb"
   db:
     image: postgres:latest
     restart: unless-stopped
@@ -55,7 +55,7 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: "400MB"
+          memory: "400mb"
     networks:
         default:
           ipv4_address: 192.168.0.2
