@@ -21,17 +21,16 @@ CREATE INDEX IF NOT EXISTS idx_transacoes_id_desc ON transacao(id desc);
 
 
 
-CREATE OR REPLACE FUNCTION update_balance(id_cliente INT, tipo_transacao CHAR(1), valor_transacao NUMERIC) RETURNS TEXT AS $$
+CREATE OR REPLACE FUNCTION update_balance(id_cliente INT, tipo_transacao CHAR(1), valor_transacao NUMERIC) RETURNS TABLE (text_message TEXT, is_error BOOLEAN, updated_balance NUMERIC) AS $$
 DECLARE
     client_record RECORD;
     limite_cliente NUMERIC;
     saldo_cliente NUMERIC;
-    return_message TEXT;
 BEGIN
 	SELECT * INTO client_record FROM cliente WHERE id = id_cliente;
     IF NOT FOUND THEN
-        return_message := 'Cliente não encontrado';
-        RETURN return_message;
+        RETURN QUERY SELECT 'Cliente não encontrado', true, NULL::NUMERIC;
+        RETURN;
     END IF;
     limite_cliente := client_record.limite;
     IF tipo_transacao = 'c' THEN
@@ -39,14 +38,14 @@ BEGIN
     ELSIF tipo_transacao = 'd' THEN
         saldo_cliente := client_record.saldo - valor_transacao;
         IF limite_cliente + saldo_cliente < 0 THEN
-            return_message := 'Limite foi ultrapassado';
-            RETURN return_message;
+            RETURN QUERY SELECT 'Limite foi ultrapassado', true, NULL::NUMERIC;
+            RETURN;
         END IF;
   	END IF;
   	UPDATE cliente SET saldo = saldo_cliente WHERE id = id_cliente;
-    return_message := 'Saldo do cliente atualizado com sucesso';
-	return return_message
- END;
+    RETURN QUERY SELECT 'Saldo do cliente atualizado com sucesso', false, saldo_cliente;
+    RETURN;
+END;
 $$ LANGUAGE plpgsql;
 
 INSERT INTO cliente (id, nome, limite, saldo) VALUES

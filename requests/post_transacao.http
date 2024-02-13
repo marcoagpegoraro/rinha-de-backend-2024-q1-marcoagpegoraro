@@ -1,7 +1,7 @@
 POST http://localhost:9999/clientes/1/transacoes
 
 {
-    "valor": 100,
+    "valor": 10000,
     "tipo": "d",
-    "descricao": "umdsodjf"
+    "descricao": "opa"
 }

@@ -30,8 +30,15 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 		return app.text("")	
 	}
 
-	resultado := app.db.exec_param_many('SELECT update_balance($1, $2, $3)', [idRequest, transacao_dto.tipo, transacao_dto.valor]) or { err }
-	println(resultado)
+	transacao_valor := i64(transacao_dto.valor) 
+	resultado := app.db.exec_param_many('SELECT update_balance($1, $2, $3)', [idRequest.str(), transacao_dto.tipo.str(), transacao_valor.str()]) or { panic(err) }
+	println(typeof(resultado[0].vals[0]))
+	println(resultado[0].vals[0])
+	// procedure_message, is_error, saldo_cliente := resultado[0].vals[0]
+	// println(procedure_message)
+	// println(is_error)
+	// println(saldo_cliente)
+	
 	// clientes := sql app.db {
 	// 	select from models.Cliente where id == idRequest
 	// } or {panic(err)}
@@ -44,7 +51,6 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	// cliente := clientes[0]
 
 	// mut saldo_cliente := i64(0)
-	// transacao_valor := i64(transacao_dto.valor) 
 	// if transacao_dto.tipo == "c" {
 	// 	saldo_cliente = cliente.saldo + transacao_valor 
 	// } 
@@ -77,8 +83,10 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	}or {panic(err)}
 
 	transacao_response_dto := dtos.TransacaoResponseDto{
-		limite: cliente.limite
-		saldo: saldo_cliente
+		// limite: cliente.limite
+		limite: 8888
+		// saldo: saldo_cliente
+		saldo: 9999
 	}
 
 	return app.json(transacao_response_dto)

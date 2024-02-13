@@ -2,7 +2,8 @@ version: "3.5"
 
 services:
   api01: &api
-    image: marcoagp/rinha_vlang_marco:latest
+    build: . #Comentar quando for enviar o PR para a rinha
+    # image: marcoagp/rinha_vlang_marco:latest  #Descomentar quando for enviar o PR para a rinha
     restart: unless-stopped
     hostname: api01
     environment:
