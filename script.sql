@@ -20,31 +20,38 @@ CREATE INDEX IF NOT EXISTS idx_transacoes_id_desc ON cliente(id desc);
 CREATE INDEX IF NOT EXISTS idx_transacoes_id_desc ON transacao(id desc);
 
 
-
-CREATE OR REPLACE FUNCTION update_balance(id_cliente INT, tipo_transacao CHAR(1), valor_transacao NUMERIC) RETURNS TABLE (text_message TEXT, is_error BOOLEAN, updated_balance NUMERIC) AS $$
+CREATE OR REPLACE FUNCTION update_balance(id_cliente INT, tipo_transacao CHAR(1), valor_transacao NUMERIC, OUT text_message TEXT, OUT is_error BOOLEAN, OUT updated_balance NUMERIC, OUT client_limit NUMERIC) AS $$
 DECLARE
     client_record RECORD;
     limite_cliente NUMERIC;
     saldo_cliente NUMERIC;
 BEGIN
-	SELECT * INTO client_record FROM cliente WHERE id = id_cliente;
+    SELECT * INTO client_record FROM cliente WHERE id = id_cliente;
     IF NOT FOUND THEN
-        RETURN QUERY SELECT 'Cliente não encontrado', true, NULL::NUMERIC;
+        text_message := 'Cliente não encontrado';
+        is_error := true;
+        updated_balance := 0;
+        client_limit := 0;
         RETURN;
     END IF;
     limite_cliente := client_record.limite;
     IF tipo_transacao = 'c' THEN
-    	saldo_cliente := client_record.saldo + valor_transacao;
+        saldo_cliente := client_record.saldo + valor_transacao;
     ELSIF tipo_transacao = 'd' THEN
         saldo_cliente := client_record.saldo - valor_transacao;
         IF limite_cliente + saldo_cliente < 0 THEN
-            RETURN QUERY SELECT 'Limite foi ultrapassado', true, NULL::NUMERIC;
+            text_message := 'Limite foi ultrapassado';
+            is_error := true;
+            updated_balance := 0;
+            client_limit := 0;
             RETURN;
         END IF;
-  	END IF;
-  	UPDATE cliente SET saldo = saldo_cliente WHERE id = id_cliente;
-    RETURN QUERY SELECT 'Saldo do cliente atualizado com sucesso', false, saldo_cliente;
-    RETURN;
+    END IF;
+    UPDATE cliente SET saldo = saldo_cliente WHERE id = id_cliente;
+    text_message := 'Saldo do cliente atualizado com sucesso';
+    is_error := false;
+    updated_balance := saldo_cliente;
+    client_limit := limite_cliente;
 END;
 $$ LANGUAGE plpgsql;
 
