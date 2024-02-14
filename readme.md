@@ -37,6 +37,10 @@ You can also run the docker compose using
 This way, the app will run with two instances, a postgres instance and a nginx load balancer.
 <hr>
 
+## Video (in portuguese) explainig my code
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YBljoTbdeQ4?si=g0T_7rzsdiGVLUFr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 ## Stress test
 
 Here is the stress test result that the challenge provided to the participants, i used the docker compose up command to start the infrastructure of my app and then i started the stress test (https://github.com/zanfranceschi/rinha-de-backend-2024-q1/blob/main/executar-teste-local.sh). Here is the machine specs that i runned the test:
