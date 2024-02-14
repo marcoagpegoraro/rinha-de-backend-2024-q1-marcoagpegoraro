@@ -39,9 +39,7 @@ This way, the app will run with two instances, a postgres instance and a nginx l
 
 ## Video (in portuguese) explainig my code
 
-[!AAAA]
-(https://i.ytimg.com/vi/YBljoTbdeQ4/maxresdefault.jpg)
-(https://https://www.youtube.com/watch?v=YBljoTbdeQ4 "Now in Android: 55")  
+[![Meu projeto para a Rinha de Backend usando Vlang](https://i.ytimg.com/vi/YBljoTbdeQ4/maxresdefault.jpg)](https://www.youtube.com/watch?v=YBljoTbdeQ4)
 
 ## Stress test
 
