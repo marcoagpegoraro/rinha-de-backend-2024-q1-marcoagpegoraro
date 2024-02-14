@@ -46,7 +46,7 @@ Here is the stress test result that the challenge provided to the participants, 
 - OS: Linux Mint Cinnamon 21.3
 
 <img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/1.jpeg?raw=true" alt="Request Time Ranges"/>
-<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/1.jpeg?raw=true" alt="Request Time Ranges"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/2.jpeg?raw=true" alt="Request Time Ranges"/>
 <img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/3.jpeg?raw=true" alt="Requests"/>
 <img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/4.jpeg?raw=true" alt="Response Time Percentiles over Time (OK)"/>
 <img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/5.jpeg?raw=true" alt="Number of requests per second"/>
