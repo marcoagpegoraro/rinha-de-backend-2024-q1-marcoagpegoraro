@@ -39,10 +39,8 @@ This way, the app will run with two instances, a postgres instance and a nginx l
 
 ## Video (in portuguese) explainig my code
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YBljoTbdeQ4?si=g0T_7rzsdiGVLUFr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-[![Now in Android: 55]         
-(https://i.ytimg.com/vi/YBljoTbdeQ4/maxresdefault.jpg)] 
+[!AAAA]
+(https://i.ytimg.com/vi/YBljoTbdeQ4/maxresdefault.jpg)
 (https://https://www.youtube.com/watch?v=YBljoTbdeQ4 "Now in Android: 55")  
 
 ## Stress test
