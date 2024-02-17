@@ -1,16 +1,14 @@
 module models
 
-import time
-
 @[table: 'transacao']
 pub struct Transacao {
 pub:
-	id        		int     	@[primary; sql: serial]
+	id        		int     @[primary; sql: serial]
 	id_cliente		int
 	tipo 			string
 	valor 			i64
 	descricao 		string
-	realizada_em  	time.Time
+	realizada_em  	string
 }
 
 @[table: 'cliente']
