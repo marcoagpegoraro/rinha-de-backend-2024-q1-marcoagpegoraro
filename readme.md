@@ -3,7 +3,9 @@
 
 <div align="center">
 <p>
-    <a href="https://vlang.io/" target="_blank"><img width="80" src="https://raw.githubusercontent.com/vlang/v-logo/master/dist/v-logo.svg?sanitize=true" alt="V logo"></a>
+    <a href="https://vlang.io" target="_blank"><img width="80" src="https://raw.githubusercontent.com/vlang/v-logo/master/dist/v-logo.svg?sanitize=true" alt="V logo"></a>
+    <a href="https://www.postgresql.org" target="_blank"><img width="80" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/640px-Postgresql_elephant.svg.png" alt="Postgres"></a>
+    <a href="https://www.nginx.com/resources/wiki" target="_blank"><img width="80" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/1280px-Nginx_logo.svg.png" alt="Nginx"></a>
 </p>
 
 </div>
@@ -47,12 +49,12 @@ Here is the stress test result that the challenge provided to the participants, 
 
 - Processor: Intel Core i5-10210U
 - Ram: 8GB DDR4 
-- OS: Linux Mint Cinnamon 21.3
+- OS: Linux Mint Cinnamon 21.2
 
-<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/1.jpeg?raw=true" alt="Request Time Ranges"/>
-<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/2.jpeg?raw=true" alt="Request Time Ranges"/>
-<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/3.jpeg?raw=true" alt="Requests"/>
-<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/4.jpeg?raw=true" alt="Response Time Percentiles over Time (OK)"/>
-<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/5.jpeg?raw=true" alt="Number of requests per second"/>
-<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/6.jpeg?raw=true" alt="Number of responses per second"/>
-<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/7.jpeg?raw=true" alt="Response Time Distribution"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/1.jpeg?raw=true" alt="Response Time Ranges"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/2.jpeg?raw=true" alt="Time percentile"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/3.jpeg?raw=true" alt="Active users along the simulation"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/4.jpeg?raw=true" alt="Response Time Distribution"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/5.jpeg?raw=true" alt="Response Time Percentiles over Time (OK)"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/6.jpeg?raw=true" alt="Number of requests per second"/>
+<img src="https://github.com/marcoagpegoraro/rinha-de-backend-2024-q1-marcoagpegoraro/blob/main/stresstest/7.jpeg?raw=true" alt="Number of responses per second"/>
