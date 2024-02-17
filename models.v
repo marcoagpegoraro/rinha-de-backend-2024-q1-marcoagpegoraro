@@ -10,7 +10,7 @@ pub:
 	tipo 			string
 	valor 			i64
 	descricao 		string
-	realizada_em  	time.Time
+	realizada_em  	string 	@[default: 'CURRENT_TIME'; sql_type: 'TIMESTAMP']
 }
 
 @[table: 'cliente']
