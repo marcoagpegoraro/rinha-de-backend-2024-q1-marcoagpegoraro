@@ -1,5 +1,7 @@
 module models
 
+import time
+
 @[table: 'transacao']
 pub struct Transacao {
 pub:
@@ -8,7 +10,7 @@ pub:
 	tipo 			string
 	valor 			i64
 	descricao 		string
-	realizada_em  	string
+	realizada_em  	time.Time
 }
 
 @[table: 'cliente']

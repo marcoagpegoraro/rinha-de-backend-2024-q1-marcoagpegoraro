@@ -57,7 +57,7 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 		valor: transacao_valor
 		tipo: transacao_dto.tipo
 		descricao: transacao_dto.descricao
-		realizada_em: time.now().format_rfc3339()
+		realizada_em: time.now()
 	}
 
 	sql app.db {
@@ -95,7 +95,7 @@ pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 			valor: e.valor
 			tipo: e.tipo
 			descricao: e.descricao
-			realizada_em: e.realizada_em
+			realizada_em: e.realizada_em.format_rfc3339()
 		} 
 	})
 
