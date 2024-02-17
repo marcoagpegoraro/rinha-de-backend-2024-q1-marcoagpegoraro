@@ -1,7 +1,5 @@
 module models
 
-import time
-
 @[table: 'transacao']
 pub struct Transacao {
 pub:
