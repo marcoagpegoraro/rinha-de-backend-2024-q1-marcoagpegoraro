@@ -1,2 +1,2 @@
-load-test/ linguist-vendored
+load-test/user-files/simulations/rinhabackend/RinhaBackendCrebitosSimulation.scala linguist-vendored
 executar-teste-local.sh linguist-vendored

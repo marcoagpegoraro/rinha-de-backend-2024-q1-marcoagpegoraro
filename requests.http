@@ -1,1 +1,11 @@
 GET http://localhost:9999/clientes/1/extrato
+
+###
+
+POST http://localhost:8080/clientes/5/transacoes
+
+{
+    "valor": 10000,
+    "tipo": "d",
+    "descricao": "opa"
+}
