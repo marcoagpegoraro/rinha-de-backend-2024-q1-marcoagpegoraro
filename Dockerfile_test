@@ -1,0 +1,14 @@
+FROM thevlang/vlang:alpine
+
+LABEL maintainer="Marco Pegoraro <marco@marcoagpegoraro.com.br>"
+
+RUN apk add postgresql-dev
+
+WORKDIR /app
+COPY . /app
+
+EXPOSE 8080
+
+RUN v -prod -d inline .
+
+CMD [ "./app" ]

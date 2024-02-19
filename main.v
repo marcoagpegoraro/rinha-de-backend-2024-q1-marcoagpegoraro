@@ -15,7 +15,7 @@ pub mut:
 
 
 fn get_database_connection() pg.DB {
-	return pg.connect_with_conninfo("host=192.168.0.2 dbname=rinha user=admin password=123 port=5432") or { panic(err) }
+	return pg.connect_with_conninfo("host=db dbname=rinha user=admin password=123 port=5432") or { panic(err) }
 }
 
 fn main(){
