@@ -1,0 +1,2 @@
+load-test/ linguist-vendored
+executar-teste-local.sh linguist-vendored

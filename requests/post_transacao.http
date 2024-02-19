@@ -1,7 +1,0 @@
-POST http://localhost:8080/clientes/5/transacoes
-
-{
-    "valor": 10000,
-    "tipo": "d",
-    "descricao": "opa"
-}
