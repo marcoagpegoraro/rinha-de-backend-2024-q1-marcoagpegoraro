@@ -18,7 +18,7 @@ RUN apk --no-cache add \
 
 RUN git clone https://github.com/vlang/v /opt/vlang && make
 
-COPY . ./app
+COPY ./src ./app
 RUN v -prod ./app
 EXPOSE 8080
 

@@ -20,9 +20,3 @@ pub:
 	descricao string @[required]
 	realizada_em string
 }
-
-pub struct TransacaoResponseDto {
-pub:
-	limite 	i64
-	saldo 	i64
-}

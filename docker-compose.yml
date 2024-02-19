@@ -2,8 +2,8 @@ version: "3.5"
 
 services:
   api01: &api
-    # build: .
-    image: marcoagp/rinha_vlang_marco:v4
+    build: .
+    # image: marcoagp/rinha_vlang_marco:v5
     restart: unless-stopped
     hostname: api01
     environment:
