@@ -39,11 +39,11 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	limite_cliente_optional := resultado[0].vals[3] or { return app.server_error(500) }
 
 	procedure_message := procedure_message_optional.str()
-	is_error := is_error_optional.str()
+	is_error := is_error_optional.str() == 't'
 	saldo_cliente := (saldo_cliente_optional.str()).i64()
 	limite_cliente := (limite_cliente_optional.str()).i64()
 
-	if is_error  == 't'{
+	if is_error {
 		if procedure_message == 'Cliente não encontrado' {
 			app.set_status(404, '')
 		} else if procedure_message == 'Limite foi ultrapassado' {

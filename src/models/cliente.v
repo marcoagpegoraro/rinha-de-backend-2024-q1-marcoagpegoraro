@@ -7,6 +7,6 @@ pub:
 	nome			string
 	limite			i64
 	saldo			i64
-	transacoes    []Transacao     @[fkey: 'id']
+	// transacoes    []Transacao     @[fkey: 'id']
 }
 
