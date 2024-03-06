@@ -3,11 +3,11 @@ module controller
 import db.pg
 import vweb
 import json
-import arrays
 import time
-import math
 
 import models
+import repository
+import mapper
 import dtos
 
 pub struct ClienteCxt {
@@ -25,7 +25,7 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 		return app.text('Failed to decode json, error: $err')
 	}
 
-	if !transacao_eh_valida(transacao_dto) {
+	if !transacao_dto.is_valid() {
 		app.set_status(422, '')
 		return app.text("")
 	}
@@ -73,57 +73,22 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	return app.json(transacao_response_dto)
 }
 
-@['/:idRequest/extrato'; get]
-pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
-	clientes := sql app.db {
-	select from models.Cliente where id == idRequest
-	} or {panic(err)}
-
-	if clientes == [] {
+@['/:id_cliente/extrato'; get]
+pub fn (mut app ClienteCxt) get_extrato(id_cliente i64) vweb.Result {
+	cliente := repository.get_client_by_id(app.db, id_cliente) or {
 		app.set_status(404, '')
 		return app.text("")
-	}
+    }
 
-	cliente := clientes[0]
+	transacoes := repository.get_last_10_transactions_by_id_cliente(app.db, id_cliente) or {
+        app.set_status(500, '')
+		return app.text("")
+    }
 
-	transacoes := sql app.db {
-		select from models.Transacao where id_cliente == idRequest order by realizada_em desc limit 10
-	} or {panic(err)}
-
-	transacoes_response_dto := arrays.map_indexed[models.Transacao, dtos.TransacaoDto](transacoes, fn (i int, e models.Transacao) dtos.TransacaoDto{
-		return dtos.TransacaoDto{
-			valor: e.valor
-			tipo: e.tipo
-			descricao: e.descricao
-			realizada_em: e.realizada_em
-		}
-	})
-
-	extrato_response_dto := dtos.ExtratoResponseDto{
-		saldo: dtos.SaldoDto{
-			total: cliente.saldo
-			data_extrato: time.now().format_rfc3339()
-			limite: cliente.limite
-		}
-		ultimas_transacoes: transacoes_response_dto
-	}
-
+	extrato_response_dto := mapper.map_cliente_and_transacao_to_extrato(cliente, transacoes) or {
+        app.set_status(500, '')
+		return app.text("")
+    }
 
 	return app.json(extrato_response_dto)
-}
-
-fn transacao_eh_valida(transacao_dto dtos.TransacaoDto) bool{
-	if math.fmod(transacao_dto.valor, 1) != 0 {
-		return false
-	}
-	if transacao_dto.valor < 0 {
-		return false
-	}
-	if transacao_dto.tipo != "c" && transacao_dto.tipo != "d" {
-		return false
-	}
-	if  transacao_dto.descricao == "" || transacao_dto.descricao.len > 10 {
-		return false
-	}
-	return true
 }
