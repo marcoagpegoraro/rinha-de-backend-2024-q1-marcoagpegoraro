@@ -6,6 +6,7 @@ import arrays
 import dtos
 import models
 
+@[direct_array_access; inline]
 pub fn map_cliente_and_transacao_to_extrato(cliente models.Cliente, transacoes []models.Transacao) !dtos.ExtratoResponseDto {
 	transacoes_response_dto := arrays.map_indexed[models.Transacao, dtos.TransacaoDto](transacoes, fn (i int, e models.Transacao) dtos.TransacaoDto{
 		return dtos.TransacaoDto{

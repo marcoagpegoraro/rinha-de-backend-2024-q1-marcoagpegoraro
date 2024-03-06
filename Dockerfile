@@ -19,7 +19,7 @@ RUN apk --no-cache add \
 RUN git clone https://github.com/vlang/v /opt/vlang && make
 
 COPY ./src ./app
-RUN v -prod ./app
+RUN v -prod -d no_segfault_handler ./app
 EXPOSE 8080
 
 CMD [ "./app/app" ]
