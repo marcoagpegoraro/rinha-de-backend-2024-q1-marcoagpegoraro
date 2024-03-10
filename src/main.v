@@ -1,11 +1,10 @@
 module main
 
 import vweb
-
 import config
 import controller
 
-fn main(){
+fn main() {
 	pool := vweb.database_pool(handler: config.get_database_connection)
 
 	app := &config.App{
@@ -22,4 +21,3 @@ fn main(){
 		family: .ip
 	}) or { panic(err) }
 }
-
