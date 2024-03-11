@@ -6,7 +6,6 @@ import json
 import arrays
 import time
 import math
-
 import models
 import dtos
 
@@ -17,21 +16,24 @@ pub mut:
 	db pg.DB
 }
 
-
 @['/:id/transacoes'; post]
 pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 	transacao_dto := json.decode(dtos.TransacaoDto, app.req.data) or {
 		app.set_status(422, '')
-		return app.text('Failed to decode json, error: $err')
+		return app.text('Failed to decode json, error: ${err}')
 	}
 
 	if !transacao_eh_valida(transacao_dto) {
 		app.set_status(422, '')
-		return app.text("")
+		return app.text('')
 	}
 
 	transacao_valor := i64(transacao_dto.valor)
-	resultado := app.db.exec_param_many('SELECT * from update_balance($1, $2, $3)', [idRequest.str(), transacao_dto.tipo.str(), transacao_valor.str()]) or { panic(err) }
+	resultado := app.db.exec_param_many('SELECT * from update_balance($1, $2, $3)', [
+		idRequest.str(),
+		transacao_dto.tipo.str(),
+		transacao_valor.str(),
+	]) or { panic(err) }
 
 	procedure_message_optional := resultado[0].vals[0] or { return app.server_error(500) }
 	is_error_optional := resultado[0].vals[1] or { return app.server_error(500) }
@@ -49,7 +51,7 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 		} else if procedure_message == 'Limite foi ultrapassado' {
 			app.set_status(422, '')
 		}
-		return app.text("")
+		return app.text('')
 	}
 
 	transacao := models.Transacao{
@@ -62,8 +64,7 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 
 	sql app.db {
 		insert transacao into models.Transacao
-	}or {panic(err)}
-
+	} or { panic(err) }
 
 	transacao_response_dto := dtos.TransacaoResponseDto{
 		limite: limite_cliente
@@ -76,21 +77,22 @@ pub fn (mut app ClienteCxt) post_transacao(idRequest int) vweb.Result {
 @['/:idRequest/extrato'; get]
 pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 	clientes := sql app.db {
-	select from models.Cliente where id == idRequest
-	} or {panic(err)}
+		select from models.Cliente where id == idRequest
+	} or { panic(err) }
 
 	if clientes == [] {
 		app.set_status(404, '')
-		return app.text("")
+		return app.text('')
 	}
 
 	cliente := clientes[0]
 
 	transacoes := sql app.db {
 		select from models.Transacao where id_cliente == idRequest order by realizada_em desc limit 10
-	} or {panic(err)}
+	} or { panic(err) }
 
-	transacoes_response_dto := arrays.map_indexed[models.Transacao, dtos.TransacaoDto](transacoes, fn (i int, e models.Transacao) dtos.TransacaoDto{
+	transacoes_response_dto := arrays.map_indexed[models.Transacao, dtos.TransacaoDto](transacoes,
+		fn (i int, e models.Transacao) dtos.TransacaoDto {
 		return dtos.TransacaoDto{
 			valor: e.valor
 			tipo: e.tipo
@@ -108,21 +110,20 @@ pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 		ultimas_transacoes: transacoes_response_dto
 	}
 
-
 	return app.json(extrato_response_dto)
 }
 
-fn transacao_eh_valida(transacao_dto dtos.TransacaoDto) bool{
+fn transacao_eh_valida(transacao_dto dtos.TransacaoDto) bool {
 	if math.fmod(transacao_dto.valor, 1) != 0 {
 		return false
 	}
 	if transacao_dto.valor < 0 {
 		return false
 	}
-	if transacao_dto.tipo != "c" && transacao_dto.tipo != "d" {
+	if transacao_dto.tipo != 'c' && transacao_dto.tipo != 'd' {
 		return false
 	}
-	if  transacao_dto.descricao == "" || transacao_dto.descricao.len > 10 {
+	if transacao_dto.descricao == '' || transacao_dto.descricao.len > 10 {
 		return false
 	}
 	return true
