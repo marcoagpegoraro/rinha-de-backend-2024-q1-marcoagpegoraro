@@ -80,7 +80,7 @@ pub fn (mut app ClienteCxt) get_extrato(idRequest i64) vweb.Result {
 		select from models.Cliente where id == idRequest
 	} or { panic(err) }
 
-	if clientes == [] {
+	if clientes.len == 0 {
 		app.set_status(404, '')
 		return app.text('')
 	}
